@@ -32,18 +32,18 @@ export function CalendarManager() {
           <p className="text-sm text-ink-muted">Click an empty slot to add a walk-in. Hatched blocks are buffer/clean-up time.</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-lg border border-slate-200 bg-white">
-            <button className="p-2 hover:bg-slate-50" onClick={() => setDate(addDays(date, -1))} aria-label="Previous day">
+          <div className="flex items-center rounded-lg border border-sand-200 bg-white">
+            <button className="p-2 hover:bg-sand-50" onClick={() => setDate(addDays(date, -1))} aria-label="Previous day">
               <ChevronLeft className="h-4 w-4" />
             </button>
             <input
               type="date"
               value={date}
               onChange={(e) => e.target.value && setDate(e.target.value)}
-              className="border-x border-slate-200 px-2 py-1.5 text-sm"
+              className="border-x border-sand-200 px-2 py-1.5 text-sm"
               aria-label="Calendar date"
             />
-            <button className="p-2 hover:bg-slate-50" onClick={() => setDate(addDays(date, 1))} aria-label="Next day">
+            <button className="p-2 hover:bg-sand-50" onClick={() => setDate(addDays(date, 1))} aria-label="Next day">
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>

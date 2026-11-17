@@ -54,7 +54,7 @@ export function TipsLedger() {
   return (
     <Card>
       <CardHeader title="Tips ledger" description="Every tip, by whom and how. Append-only for a clean audit trail." />
-      <form className="grid gap-3 border-b border-slate-100 p-5 sm:grid-cols-5" noValidate onSubmit={handleSubmit((v) => record.mutate(v))}>
+      <form className="grid gap-3 border-b border-sand-100 p-5 sm:grid-cols-5" noValidate onSubmit={handleSubmit((v) => record.mutate(v))}>
         <Field label="Team member" error={errors.staffId?.message}>
           {(p) => (
             <Select {...p} {...register('staffId')}>
@@ -99,7 +99,7 @@ export function TipsLedger() {
       ) : !tips.data?.length ? (
         <EmptyState icon={<Receipt className="h-5 w-5" />} title="No tips recorded yet" />
       ) : (
-        <ul className="divide-y divide-slate-100">
+        <ul className="divide-y divide-sand-100">
           {tips.data.map((t) => (
             <li key={t.id} className="flex items-center gap-4 px-5 py-3 text-sm">
               <span className="w-40 shrink-0 text-ink-muted">{formatDateTime(t.created_at)}</span>

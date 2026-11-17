@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }, // dashboard is private
 };
 
-export const viewport: Viewport = { themeColor: '#1a7e56', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#146b4f', width: 'device-width', initialScale: 1 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Reading the nonce opts every page into dynamic rendering so Next.js can

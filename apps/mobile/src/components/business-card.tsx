@@ -13,26 +13,26 @@ export function BusinessCard({ business: b, index }: { business: BusinessSearchR
         accessibilityRole="button"
         accessibilityLabel={`${b.name}, ${b.category_name}, ${mobile ? 'comes to you' : 'in-store'}`}
         onPress={() => router.push({ pathname: '/business/[id]', params: { id: b.id } })}
-        className="mb-3 rounded-2xl border border-slate-200 bg-white p-4 active:bg-slate-50"
+        className="mb-3 rounded-2xl border border-sand-200 bg-white p-4 active:bg-sand-50"
       >
         <View className="flex-row items-start justify-between gap-3">
           <View className="flex-1">
             <View className="flex-row items-center gap-1.5">
-              <Text className="flex-shrink text-base font-semibold text-slate-900" numberOfLines={1}>
+              <Text className="flex-shrink text-base font-semibold text-sand-900" numberOfLines={1}>
                 {b.name}
               </Text>
-              {b.is_verified && <BadgeCheck size={16} color="#1a7e56" accessibilityLabel="Verified" />}
+              {b.is_verified && <BadgeCheck size={16} color="#146b4f" accessibilityLabel="Verified" />}
             </View>
-            <Text className="mt-0.5 text-sm text-slate-500">{b.category_name}</Text>
+            <Text className="mt-0.5 text-sm text-sand-500">{b.category_name}</Text>
           </View>
           {b.min_price_cents !== null && (
-            <Text className="text-sm font-semibold text-slate-900">from {formatZar(b.min_price_cents)}</Text>
+            <Text className="text-sm font-semibold text-sand-900">from {formatZar(b.min_price_cents)}</Text>
           )}
         </View>
 
         <View className="mt-2 flex-row items-center gap-1">
-          <MapPin size={13} color="#64748b" />
-          <Text className="text-xs text-slate-500">
+          <MapPin size={13} color="#7a6f5e" />
+          <Text className="text-xs text-sand-500">
             {b.suburb}, {b.city}
             {b.distance_km !== null && ` · ${formatDistance(b.distance_km)}`}
           </Text>
@@ -45,17 +45,17 @@ export function BusinessCard({ business: b, index }: { business: BusinessSearchR
               {b.travel_radius_km ? `Comes to you · ${Math.round(Number(b.travel_radius_km))} km` : 'Comes to you'}
             </Pill>
           ) : (
-            <Pill tone="slate" icon={<Store size={12} color="#475569" />}>
+            <Pill tone="slate" icon={<Store size={12} color="#5f564a" />}>
               In-store
             </Pill>
           )}
           {b.has_instant_book && (
-            <Pill tone="brand" icon={<Zap size={12} color="#156548" />}>
+            <Pill tone="brand" icon={<Zap size={12} color="#115641" />}>
               Instant book
             </Pill>
           )}
           {b.has_quote_services && (
-            <Pill tone="amber" icon={<MessageSquareQuote size={12} color="#b45309" />}>
+            <Pill tone="amber" icon={<MessageSquareQuote size={12} color="#b0540a" />}>
               Free quotes
             </Pill>
           )}

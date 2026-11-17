@@ -66,19 +66,19 @@ export default function ProfileScreen() {
 
   if (status !== 'signed_in') {
     return (
-      <View className="flex-1 items-center justify-center gap-4 bg-slate-50 p-8">
-        <Text className="text-center text-base text-slate-600">Sign in to manage your profile, history and saved cards.</Text>
+      <View className="flex-1 items-center justify-center gap-4 bg-sand-50 p-8">
+        <Text className="text-center text-base text-sand-600">Sign in to manage your profile, history and saved cards.</Text>
         <Button title="Sign in" onPress={() => router.push('/(auth)/sign-in')} className="w-48" />
       </View>
     );
   }
-  if (profile.isLoading) return <ActivityIndicator className="mt-20" color="#1a7e56" />;
+  if (profile.isLoading) return <ActivityIndicator className="mt-20" color="#146b4f" />;
 
   const history = (bookings.data ?? []).filter((a) => a.status === 'completed' || a.status === 'cancelled').slice(0, 20);
   const errs = form.formState.errors;
 
   return (
-    <ScrollView className="flex-1 bg-slate-50" contentContainerClassName="p-4 pb-16" keyboardShouldPersistTaps="handled">
+    <ScrollView className="flex-1 bg-sand-50" contentContainerClassName="p-4 pb-16" keyboardShouldPersistTaps="handled">
       <SectionTitle>Your details</SectionTitle>
       <Card className="gap-3">
         <Controller control={form.control} name="fullName" render={({ field }) => (
@@ -109,12 +109,12 @@ export default function ProfileScreen() {
         {cards.data?.length ? (
           cards.data.map((c) => (
             <View key={c.id} className="flex-row items-center gap-3 py-2">
-              <CreditCard size={20} color="#475569" />
+              <CreditCard size={20} color="#5f564a" />
               <View className="flex-1">
-                <Text className="font-medium capitalize text-slate-900">
+                <Text className="font-medium capitalize text-sand-900">
                   {c.brand ?? 'Card'} •••• {c.last4}
                 </Text>
-                <Text className="text-xs text-slate-500">
+                <Text className="text-xs text-sand-500">
                   Expires {String(c.exp_month).padStart(2, '0')}/{c.exp_year} {c.bank ? `· ${c.bank}` : ''}
                 </Text>
               </View>
@@ -127,14 +127,14 @@ export default function ProfileScreen() {
                     { text: 'Remove', style: 'destructive', onPress: () => cards.remove.mutate(c.id) },
                   ])
                 }
-                className="rounded-lg p-2 active:bg-slate-100"
+                className="rounded-lg p-2 active:bg-sand-100"
               >
                 <Trash2 size={18} color="#dc2626" />
               </Pressable>
             </View>
           ))
         ) : (
-          <Text className="text-sm text-slate-500">
+          <Text className="text-sm text-sand-500">
             No saved cards. Cards are tokenised by Paystack — Khula never sees or stores your card number.
           </Text>
         )}
@@ -144,21 +144,21 @@ export default function ProfileScreen() {
       <Card>
         {history.length === 0 ? (
           <View className="flex-row items-center gap-2">
-            <History size={16} color="#94a3b8" />
-            <Text className="text-sm text-slate-500">Completed bookings will appear here.</Text>
+            <History size={16} color="#a89c88" />
+            <Text className="text-sm text-sand-500">Completed bookings will appear here.</Text>
           </View>
         ) : (
           history.map((a) => (
-            <Pressable key={a.id} onPress={() => router.push({ pathname: '/booking/[id]', params: { id: a.id } })} className="flex-row items-center gap-3 border-b border-slate-100 py-3 last:border-b-0">
+            <Pressable key={a.id} onPress={() => router.push({ pathname: '/booking/[id]', params: { id: a.id } })} className="flex-row items-center gap-3 border-b border-sand-100 py-3 last:border-b-0">
               <View className="flex-1 gap-0.5">
-                <Text className="font-medium text-slate-900">{a.service?.title}</Text>
-                <Text className="text-xs text-slate-500">{formatDateTime(a.starts_at)}</Text>
+                <Text className="font-medium text-sand-900">{a.service?.title}</Text>
+                <Text className="text-xs text-sand-500">{formatDateTime(a.starts_at)}</Text>
               </View>
               <View className="items-end gap-1">
                 <StatusPill status={a.status} />
                 {a.total_price_cents !== null && a.status === 'completed' && <Text className="text-xs font-semibold">{formatZar(a.total_price_cents)}</Text>}
               </View>
-              <ChevronRight size={16} color="#cbd5e1" />
+              <ChevronRight size={16} color="#d6ccbc" />
             </Pressable>
           ))
         )}
@@ -166,12 +166,12 @@ export default function ProfileScreen() {
 
       <SectionTitle>Privacy (POPIA)</SectionTitle>
       <Card className="gap-2">
-        <Button title="Download my data" variant="secondary" icon={<Download size={18} color="#0f172a" />} loading={exportData.isPending} onPress={() => exportData.mutate()} />
+        <Button title="Download my data" variant="secondary" icon={<Download size={18} color="#1d1a16" />} loading={exportData.isPending} onPress={() => exportData.mutate()} />
         <ErrorText error={exportData.error} />
         <Button title="Delete my account" variant="ghost" icon={<ShieldAlert size={18} color="#dc2626" />} onPress={() => setEraseOpen(true)} />
       </Card>
 
-      <Button title="Sign out" variant="ghost" className="mt-6" icon={<LogOut size={18} color="#475569" />} onPress={signOut} />
+      <Button title="Sign out" variant="ghost" className="mt-6" icon={<LogOut size={18} color="#5f564a" />} onPress={signOut} />
 
       <EraseAccountModal open={eraseOpen} onClose={() => setEraseOpen(false)} />
     </ScrollView>
@@ -197,14 +197,14 @@ function EraseAccountModal({ open, onClose }: { open: boolean; onClose: () => vo
     <Modal visible={open} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
       <View className="flex-1 gap-4 bg-white p-6">
         <Text className="text-xl font-bold text-red-700">Delete your account</Text>
-        <Text className="text-sm text-slate-600">
+        <Text className="text-sm text-sand-600">
           This permanently removes your name, contact details, addresses, saved cards and provider notes about you. Payment records are kept in
           anonymised form for 5 years as required by South African tax law. Cancel upcoming bookings first.
         </Text>
         <Input label="Confirm with your password" secureTextEntry value={password} onChangeText={setPassword} autoComplete="current-password" />
         <View className="gap-1.5">
-          <Text className="text-sm font-medium text-slate-800">Type DELETE MY ACCOUNT</Text>
-          <TextInput value={confirmation} onChangeText={setConfirmation} autoCapitalize="characters" className="min-h-12 rounded-xl border border-slate-300 px-3.5 text-base" />
+          <Text className="text-sm font-medium text-sand-800">Type DELETE MY ACCOUNT</Text>
+          <TextInput value={confirmation} onChangeText={setConfirmation} autoCapitalize="characters" className="min-h-12 rounded-xl border border-sand-300 px-3.5 text-base" />
         </View>
         <ErrorText error={erase.error} />
         <Button

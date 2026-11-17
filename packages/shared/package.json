@@ -11,7 +11,8 @@
     "./types": "./src/types/index.ts",
     "./database": "./src/types/database.ts",
     "./validation": "./src/validation/index.ts",
-    "./tailwind-preset": "./tailwind-preset.cjs"
+    "./tailwind-preset": "./tailwind-preset.cjs",
+    "./palette": "./palette.cjs"
   },
   "sideEffects": false,
   "scripts": {

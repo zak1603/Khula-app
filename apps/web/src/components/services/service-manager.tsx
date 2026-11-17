@@ -71,7 +71,7 @@ export function ServiceManager() {
           Add what you offer — e.g. “Silk press · 90 min · R450” or “Geyser repair · quote”.
         </EmptyState>
       ) : (
-        <ul className="divide-y divide-slate-100">
+        <ul className="divide-y divide-sand-100">
           {services.data.map((s) => {
             const instant = s.pricing_model === 'instant_book';
             return (
@@ -117,7 +117,7 @@ export function ServiceManager() {
           })}
         </ul>
       )}
-      <p className="border-t border-slate-100 px-5 py-3 text-xs text-ink-subtle">
+      <p className="border-t border-sand-100 px-5 py-3 text-xs text-ink-subtle">
         Switching to instant book requires a fixed price. Left switch: instant book · right switch: visible to clients.
       </p>
 
@@ -205,7 +205,7 @@ function ServiceDialog({ businessId, service, onClose }: { businessId: string | 
           </Field>
         </div>
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-brand-600" {...register('isActive')} />
+          <input type="checkbox" className="h-4 w-4 rounded border-sand-300 text-brand-600" {...register('isActive')} />
           Visible to clients
         </label>
         <ErrorNotice error={save.error} />

@@ -58,7 +58,7 @@ export function AppointmentPanel({ appointments, staff }: { appointments: Appoin
             <p className="text-sm font-medium">{a.total_price_cents !== null ? formatZar(a.total_price_cents) : 'Awaiting quote'}</p>
           </div>
 
-          <dl className="space-y-2 rounded-xl bg-slate-50 p-4 text-sm">
+          <dl className="space-y-2 rounded-xl bg-sand-50 p-4 text-sm">
             <div className="flex items-center gap-2">
               <UserRound className="h-4 w-4 text-ink-subtle" aria-hidden />
               <dd>{a.client?.full_name ?? a.walk_in_name ?? 'Client'}</dd>
@@ -81,7 +81,7 @@ export function AppointmentPanel({ appointments, staff }: { appointments: Appoin
                 </dd>
               </div>
             )}
-            {a.client_message && <p className="whitespace-pre-wrap border-t border-slate-200 pt-2 text-ink-muted">“{a.client_message}”</p>}
+            {a.client_message && <p className="whitespace-pre-wrap border-t border-sand-200 pt-2 text-ink-muted">“{a.client_message}”</p>}
           </dl>
 
           <ErrorNotice error={error} />
@@ -127,7 +127,7 @@ export function AppointmentPanel({ appointments, staff }: { appointments: Appoin
           {/* Reschedule */}
           {['requested', 'quoted', 'confirmed'].includes(a.status) && (
             <form
-              className="space-y-3 rounded-xl border border-slate-200 p-4"
+              className="space-y-3 rounded-xl border border-sand-200 p-4"
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!moveDate || !moveTime) return;

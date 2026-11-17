@@ -41,9 +41,9 @@ export default function SignUpScreen() {
   if (sent) {
     return (
       <View className="flex-1 items-center justify-center gap-3 bg-white p-8">
-        <MailCheck size={44} color="#1a7e56" />
+        <MailCheck size={44} color="#146b4f" />
         <Text className="text-xl font-semibold">Check your email</Text>
-        <Text className="text-center text-slate-500">Tap the confirmation link we sent, then come back and sign in.</Text>
+        <Text className="text-center text-sand-500">Tap the confirmation link we sent, then come back and sign in.</Text>
       </View>
     );
   }
@@ -82,9 +82,9 @@ export default function SignUpScreen() {
           control={control}
           name="popiaConsent"
           render={({ field }) => (
-            <View className="flex-row items-start gap-3 rounded-xl bg-slate-50 p-3">
+            <View className="flex-row items-start gap-3 rounded-xl bg-sand-50 p-3">
               <Switch value={field.value === true} onValueChange={(v) => field.onChange(v ? true : undefined)} accessibilityLabel="Accept privacy notice" />
-              <Text className="flex-1 text-sm text-slate-700">
+              <Text className="flex-1 text-sm text-sand-700">
                 I agree to the{' '}
                 <Text className="font-semibold text-brand-700" onPress={() => Linking.openURL(`${env.apiUrl}/legal/privacy`)}>
                   privacy notice
@@ -102,7 +102,7 @@ export default function SignUpScreen() {
           render={({ field }) => (
             <Pressable onPress={() => field.onChange(!field.value)} className="flex-row items-center gap-3 px-1">
               <Switch value={!!field.value} onValueChange={field.onChange} accessibilityLabel="Marketing opt-in" />
-              <Text className="flex-1 text-sm text-slate-600">Send me occasional offers (optional)</Text>
+              <Text className="flex-1 text-sm text-sand-600">Send me occasional offers (optional)</Text>
             </Pressable>
           )}
         />

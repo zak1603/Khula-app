@@ -19,11 +19,11 @@ const toMin = (hhmm: string) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slic
 const toHHMM = (m: number) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
 
 const STATUS_BLOCK: Record<string, string> = {
-  requested: 'border-amber-400 bg-amber-50 text-amber-900',
+  requested: 'border-sun-400 bg-sun-50 text-sun-900',
   quoted: 'border-violet-400 bg-violet-50 text-violet-900',
-  confirmed: 'border-emerald-500 bg-emerald-50 text-emerald-900',
+  confirmed: 'border-brand-500 bg-brand-50 text-brand-900',
   completed: 'border-sky-500 bg-sky-50 text-sky-900',
-  cancelled: 'border-slate-300 bg-slate-50 text-slate-400 line-through',
+  cancelled: 'border-sand-300 bg-sand-50 text-sand-400 line-through',
 };
 
 function weekdayOf(date: string): Weekday {
@@ -89,13 +89,13 @@ export function CalendarGrid({
   }
 
   if (!staff.length) {
-    return <p className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-ink-muted">Add staff to see calendar lanes.</p>;
+    return <p className="rounded-xl border border-dashed border-sand-300 p-8 text-center text-sm text-ink-muted">Add staff to see calendar lanes.</p>;
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <div className="overflow-hidden rounded-2xl border border-sand-200 bg-white">
       {unassigned.length > 0 && (
-        <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-800">
+        <div className="border-b border-sun-200 bg-sun-50 px-4 py-2 text-sm text-sun-800">
           {unassigned.length} request{unassigned.length > 1 ? 's' : ''} without a staff member —{' '}
           {unassigned.map((a, i) => (
             <button key={a.id} className="font-medium underline" onClick={() => selectAppointment(a.id)}>
@@ -108,8 +108,8 @@ export function CalendarGrid({
 
       <div className="flex overflow-x-auto">
         {/* Time axis */}
-        <div className="sticky left-0 z-20 w-14 shrink-0 border-r border-slate-100 bg-white">
-          <div className="h-12 border-b border-slate-100" />
+        <div className="sticky left-0 z-20 w-14 shrink-0 border-r border-sand-100 bg-white">
+          <div className="h-12 border-b border-sand-100" />
           <div className="relative" style={{ height }}>
             {hours.map((m) => (
               <span key={m} className="absolute right-2 -translate-y-1/2 text-[11px] tabular-nums text-ink-subtle" style={{ top: (m - startMin) * px }}>
@@ -123,8 +123,8 @@ export function CalendarGrid({
         {staff.map((s) => {
           const intervals = s.working_hours[weekday] ?? [];
           return (
-            <div key={s.id} className="min-w-[180px] flex-1 border-r border-slate-100 last:border-r-0">
-              <div className="sticky top-0 z-10 flex h-12 items-center gap-2 border-b border-slate-100 bg-white px-3">
+            <div key={s.id} className="min-w-[180px] flex-1 border-r border-sand-100 last:border-r-0">
+              <div className="sticky top-0 z-10 flex h-12 items-center gap-2 border-b border-sand-100 bg-white px-3">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-100 text-xs font-semibold text-brand-800">
                   {s.display_name.slice(0, 1).toUpperCase()}
                 </span>
@@ -151,7 +151,7 @@ export function CalendarGrid({
                 ))}
                 {/* Hour lines */}
                 {hours.map((m) => (
-                  <div key={m} className="pointer-events-none absolute inset-x-0 border-t border-slate-100" style={{ top: (m - startMin) * px }} />
+                  <div key={m} className="pointer-events-none absolute inset-x-0 border-t border-sand-100" style={{ top: (m - startMin) * px }} />
                 ))}
 
                 {(byStaff.get(s.id) ?? []).map((a) => {

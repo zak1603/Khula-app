@@ -9,14 +9,14 @@ const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean)
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
 const variantBox: Record<Variant, string> = {
   primary: 'bg-brand-600 active:bg-brand-700',
-  secondary: 'bg-white border border-slate-200 active:bg-slate-50',
-  ghost: 'bg-transparent active:bg-slate-100',
+  secondary: 'bg-white border border-sand-200 active:bg-sand-50',
+  ghost: 'bg-transparent active:bg-sand-100',
   danger: 'bg-red-600 active:bg-red-700',
 };
 const variantText: Record<Variant, string> = {
   primary: 'text-white',
-  secondary: 'text-slate-900',
-  ghost: 'text-slate-600',
+  secondary: 'text-sand-900',
+  ghost: 'text-sand-600',
   danger: 'text-white',
 };
 
@@ -43,7 +43,7 @@ export function Button({
       className={cx('h-12 flex-row items-center justify-center gap-2 rounded-xl px-4', variantBox[variant], isDisabled && 'opacity-50', className)}
       {...rest}
     >
-      {loading ? <ActivityIndicator color={variant === 'primary' || variant === 'danger' ? '#fff' : '#1a7e56'} /> : icon}
+      {loading ? <ActivityIndicator color={variant === 'primary' || variant === 'danger' ? '#fff' : '#146b4f'} /> : icon}
       <Text className={cx('text-base font-semibold', variantText[variant])}>{title}</Text>
     </Pressable>
   );
@@ -55,14 +55,14 @@ export const Input = forwardRef<React.ComponentRef<typeof TextInput>, TextInputP
 ) {
   return (
     <View className="gap-1.5">
-      <Text className="text-sm font-medium text-slate-800">{label}</Text>
+      <Text className="text-sm font-medium text-sand-800">{label}</Text>
       <TextInput
         ref={ref}
         accessibilityLabel={label}
-        placeholderTextColor="#94a3b8"
+        placeholderTextColor="#a89c88"
         className={cx(
-          'min-h-12 rounded-xl border bg-white px-3.5 text-base text-slate-900',
-          error ? 'border-red-500' : 'border-slate-300 focus:border-brand-500',
+          'min-h-12 rounded-xl border bg-white px-3.5 text-base text-sand-900',
+          error ? 'border-red-500' : 'border-sand-300 focus:border-brand-500',
           className,
         )}
         {...props}
@@ -72,7 +72,7 @@ export const Input = forwardRef<React.ComponentRef<typeof TextInput>, TextInputP
           {error}
         </Text>
       ) : hint ? (
-        <Text className="text-xs text-slate-400">{hint}</Text>
+        <Text className="text-xs text-sand-400">{hint}</Text>
       ) : null}
     </View>
   );
@@ -84,24 +84,24 @@ export function Chip({ label, selected, onPress, icon }: { label: string; select
       accessibilityRole="button"
       accessibilityState={{ selected: !!selected }}
       onPress={onPress}
-      className={cx('flex-row items-center gap-1.5 rounded-full border px-3.5 py-2', selected ? 'border-brand-600 bg-brand-600' : 'border-slate-200 bg-white')}
+      className={cx('flex-row items-center gap-1.5 rounded-full border px-3.5 py-2', selected ? 'border-brand-800 bg-brand-800' : 'border-sand-200 bg-white')}
     >
       {icon}
-      <Text className={cx('text-sm font-medium', selected ? 'text-white' : 'text-slate-700')}>{label}</Text>
+      <Text className={cx('text-sm font-medium', selected ? 'text-white' : 'text-sand-700')}>{label}</Text>
     </Pressable>
   );
 }
 
 export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <View className={cx('rounded-2xl border border-slate-200 bg-white p-4', className)}>{children}</View>;
+  return <View className={cx('rounded-2xl border border-sand-200 bg-white p-4', className)}>{children}</View>;
 }
 
 const statusTone: Record<AppointmentStatus, string> = {
-  requested: 'bg-amber-100 text-amber-800',
+  requested: 'bg-sun-100 text-sun-800',
   quoted: 'bg-violet-100 text-violet-800',
-  confirmed: 'bg-emerald-100 text-emerald-800',
+  confirmed: 'bg-brand-100 text-brand-800',
   completed: 'bg-sky-100 text-sky-800',
-  cancelled: 'bg-slate-100 text-slate-500',
+  cancelled: 'bg-sand-100 text-sand-500',
 };
 
 export function StatusPill({ status }: { status: AppointmentStatus }) {
@@ -115,10 +115,10 @@ export function StatusPill({ status }: { status: AppointmentStatus }) {
 
 export function Pill({ children, tone = 'slate', icon }: { children: string; tone?: 'slate' | 'brand' | 'violet' | 'amber'; icon?: React.ReactNode }) {
   const tones = {
-    slate: ['bg-slate-100', 'text-slate-600'],
+    slate: ['bg-sand-100', 'text-sand-600'],
     brand: ['bg-brand-50', 'text-brand-700'],
     violet: ['bg-violet-50', 'text-violet-700'],
-    amber: ['bg-amber-50', 'text-amber-700'],
+    amber: ['bg-sun-50', 'text-sun-700'],
   } as const;
   return (
     <View className={cx('flex-row items-center gap-1 self-start rounded-full px-2 py-0.5', tones[tone][0])}>
@@ -137,16 +137,29 @@ export function ErrorText({ error }: { error: unknown }) {
   );
 }
 
+const BEADS = ['bg-bead-green', 'bg-bead-gold', 'bg-bead-red', 'bg-bead-blue', 'bg-bead-black'] as const;
+
+/** Khula's signature: a thin beadwork band (Zulu/Ndebele-inspired), used under heroes and headers. */
+export function BeadStripe({ className, height = 'h-1' }: { className?: string; height?: 'h-0.5' | 'h-1' | 'h-1.5' }) {
+  return (
+    <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" className={cx('flex-row gap-1', className)}>
+      {BEADS.map((bg, i) => (
+        <View key={bg} className={cx('rounded-full', height, bg, i === 0 ? 'flex-[2]' : 'flex-1')} />
+      ))}
+    </View>
+  );
+}
+
 export function SectionTitle({ children }: { children: string }) {
-  return <Text className="mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-slate-400">{children}</Text>;
+  return <Text className="mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-sand-400">{children}</Text>;
 }
 
 export function Empty({ icon, title, subtitle }: { icon: React.ReactNode; title: string; subtitle?: string }) {
   return (
     <View className="items-center gap-2 px-8 py-16">
-      <View className="rounded-full bg-slate-100 p-4">{icon}</View>
-      <Text className="text-base font-semibold text-slate-800">{title}</Text>
-      {subtitle && <Text className="text-center text-sm text-slate-500">{subtitle}</Text>}
+      <View className="rounded-full bg-sand-100 p-4">{icon}</View>
+      <Text className="text-base font-semibold text-sand-800">{title}</Text>
+      {subtitle && <Text className="text-center text-sm text-sand-500">{subtitle}</Text>}
     </View>
   );
 }

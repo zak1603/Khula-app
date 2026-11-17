@@ -2,6 +2,7 @@
   "expo": {
     "name": "Khula",
     "slug": "khula",
+    "owner": "zak1603",
     "scheme": "khula",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -32,6 +33,9 @@
         }
       ]
     ],
-    "experiments": { "typedRoutes": true }
+    "experiments": { "typedRoutes": true },
+    "extra": {
+      "eas": { "projectId": "dbf3f564-a09c-411f-bba7-bcece55a97c2" }
+    }
   }
 }

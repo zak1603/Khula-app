@@ -73,7 +73,7 @@ export function AnalyticsOverview() {
 
         <Card className="lg:col-span-2">
           <CardHeader title="Up next" action={<Link href="/dashboard/calendar" className="text-sm font-medium text-brand-700 hover:underline">Calendar</Link>} />
-          <ul className="divide-y divide-slate-100">
+          <ul className="divide-y divide-sand-100">
             {upcoming.isLoading &&
               Array.from({ length: 4 }).map((_, i) => (
                 <li key={i} className="p-4">
@@ -119,7 +119,7 @@ function KpiCard(props: {
   highlight?: boolean;
 }) {
   const body = (
-    <Card className={cn('h-full p-5 transition-shadow', props.href && 'hover:shadow-md', props.highlight && 'ring-2 ring-amber-300')}>
+    <Card className={cn('h-full p-5 transition-shadow', props.href && 'hover:shadow-md', props.highlight && 'ring-2 ring-sun-300')}>
       <div className="flex items-center justify-between text-ink-muted">
         <span className="text-sm font-medium">{props.label}</span>
         <span className="rounded-lg bg-brand-50 p-2 text-brand-700">{props.icon}</span>
@@ -130,7 +130,7 @@ function KpiCard(props: {
         <p className="mt-2 text-3xl font-bold tracking-tight tabular-nums">{props.value}</p>
       )}
       {props.meter !== undefined && (
-        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(props.meter * 100)} aria-label={props.label}>
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sand-100" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(props.meter * 100)} aria-label={props.label}>
           <div className="h-full rounded-full bg-brand-500 transition-all" style={{ width: `${Math.min(100, props.meter * 100)}%` }} />
         </div>
       )}
@@ -160,11 +160,11 @@ function RevenueBars({ series }: { series: DashboardStats['revenue_series'] }) {
               <title>{`${label}: ${formatZar(p.revenue_cents)}`}</title>
               <rect x={x} y={H - h} width={barW} height={h} rx={6} className={i === series.length - 1 ? 'fill-brand-600' : 'fill-brand-200'} />
               {p.revenue_cents > 0 && (
-                <text x={x + barW / 2} y={H - h - 6} textAnchor="middle" className="fill-slate-500 text-[11px]">
+                <text x={x + barW / 2} y={H - h - 6} textAnchor="middle" className="fill-sand-500 text-[11px]">
                   {formatZarCompact(p.revenue_cents)}
                 </text>
               )}
-              <text x={x + barW / 2} y={H + 18} textAnchor="middle" className="fill-slate-500 text-[12px]">
+              <text x={x + barW / 2} y={H + 18} textAnchor="middle" className="fill-sand-500 text-[12px]">
                 {label}
               </text>
             </g>

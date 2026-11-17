@@ -32,7 +32,7 @@ export function LoginForm() {
   return (
     <Card className="p-6">
       <h1 className="text-xl font-semibold">Sign in to your business</h1>
-      {notice && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-800">{notice}</p>}
+      {notice && <p className="mt-3 rounded-lg bg-sun-50 p-3 text-sm text-sun-800">{notice}</p>}
       <form className="mt-5 space-y-4" noValidate onSubmit={handleSubmit((v) => signIn.mutate(v))}>
         <Field label="Email" error={errors.email?.message}>
           {(p) => <Input {...p} type="email" autoComplete="email" {...register('email')} />}

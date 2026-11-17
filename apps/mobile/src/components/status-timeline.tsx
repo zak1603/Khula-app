@@ -25,8 +25,8 @@ export function StatusTimeline({ status, progress, isMobile }: { status: Appoint
 
   if (status === 'cancelled') {
     return (
-      <View className="rounded-2xl bg-slate-100 p-4">
-        <Text className="font-semibold text-slate-600">This booking was cancelled.</Text>
+      <View className="rounded-2xl bg-sand-100 p-4">
+        <Text className="font-semibold text-sand-600">This booking was cancelled.</Text>
       </View>
     );
   }
@@ -34,7 +34,7 @@ export function StatusTimeline({ status, progress, isMobile }: { status: Appoint
   return (
     <View className="flex-row" accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: steps.length, now: doneCount }}>
       <View className="mr-4 w-1 items-center">
-        <View className="absolute bottom-4 top-4 w-1 overflow-hidden rounded-full bg-slate-200">
+        <View className="absolute bottom-4 top-4 w-1 overflow-hidden rounded-full bg-sand-200">
           <Animated.View className="w-1 bg-brand-500" style={fillStyle} />
         </View>
       </View>
@@ -42,7 +42,7 @@ export function StatusTimeline({ status, progress, isMobile }: { status: Appoint
         {steps.map((s) => (
           <View key={s.key} className="-ml-[26px] flex-row items-center gap-3">
             <StepDot done={s.done} current={s.current} />
-            <Text className={s.current ? 'text-base font-semibold text-slate-900' : s.done ? 'text-base text-slate-700' : 'text-base text-slate-400'}>
+            <Text className={s.current ? 'text-base font-semibold text-sand-900' : s.done ? 'text-base text-sand-700' : 'text-base text-sand-400'}>
               {s.label}
             </Text>
           </View>
@@ -64,7 +64,7 @@ function StepDot({ done, current }: { done: boolean; current: boolean }) {
   return (
     <View className="h-6 w-6 items-center justify-center">
       <Animated.View className="absolute h-6 w-6 rounded-full bg-brand-200" style={ring} />
-      <View className={done ? 'h-6 w-6 items-center justify-center rounded-full bg-brand-600' : 'h-6 w-6 rounded-full border-2 border-slate-300 bg-white'}>
+      <View className={done ? 'h-6 w-6 items-center justify-center rounded-full bg-brand-600' : 'h-6 w-6 rounded-full border-2 border-sand-300 bg-white'}>
         {done && <Check size={14} color="#fff" strokeWidth={3} />}
       </View>
     </View>
