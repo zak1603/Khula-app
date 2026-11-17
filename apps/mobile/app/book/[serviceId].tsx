@@ -64,21 +64,21 @@ export default function BookingFlowScreen() {
   const next = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   const back = () => (stepIndex === 0 ? router.back() : setStepIndex((i) => i - 1));
 
-  if (service.isLoading || business.isLoading || staff.isLoading) return <ActivityIndicator className="mt-20" color="#1a7e56" />;
+  if (service.isLoading || business.isLoading || staff.isLoading) return <ActivityIndicator className="mt-20" color="#146b4f" />;
   if (!service.data || !business.data) return <ErrorText error={service.error ?? business.error ?? new Error('Service unavailable')} />;
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-slate-50">
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-sand-50">
       {/* Progress */}
       <View className="flex-row gap-1.5 px-4 pt-3">
         {steps.map((s, i) => (
-          <View key={s} className={i <= stepIndex ? 'h-1 flex-1 rounded-full bg-brand-500' : 'h-1 flex-1 rounded-full bg-slate-200'} />
+          <View key={s} className={i <= stepIndex ? 'h-1 flex-1 rounded-full bg-brand-500' : 'h-1 flex-1 rounded-full bg-sand-200'} />
         ))}
       </View>
-      <Text className="px-4 pt-3 text-xs font-medium uppercase tracking-wide text-slate-400">
+      <Text className="px-4 pt-3 text-xs font-medium uppercase tracking-wide text-sand-400">
         {service.data.title} · {business.data.name}
       </Text>
-      <Text className="px-4 pb-2 text-2xl font-bold text-slate-900">{STEP_TITLES[step]}</Text>
+      <Text className="px-4 pb-2 text-2xl font-bold text-sand-900">{STEP_TITLES[step]}</Text>
 
       <Animated.View key={step} entering={SlideInRight.springify().damping(20)} exiting={FadeOut.duration(120)} className="flex-1">
         {step === 'staff' && <StaffStep staff={staff.data ?? []} onNext={next} />}
@@ -103,7 +103,7 @@ export default function BookingFlowScreen() {
 
       {step !== 'review' && (
         <Pressable onPress={back} className="items-center pb-6">
-          <Text className="text-sm font-medium text-slate-500">Back</Text>
+          <Text className="text-sm font-medium text-sand-500">Back</Text>
         </Pressable>
       )}
     </KeyboardAvoidingView>
@@ -124,10 +124,10 @@ function StaffStep({ staff, onNext }: { staff: Array<{ staff_id: string; display
             set({ staffId: s.staff_id, slotStart: null, slotStaffId: null });
             onNext();
           }}
-          className={staffId === s.staff_id ? 'rounded-2xl border-2 border-brand-500 bg-brand-50 p-4' : 'rounded-2xl border border-slate-200 bg-white p-4'}
+          className={staffId === s.staff_id ? 'rounded-2xl border-2 border-brand-500 bg-brand-50 p-4' : 'rounded-2xl border border-sand-200 bg-white p-4'}
         >
-          <Text className="text-base font-semibold text-slate-900">{s.display_name}</Text>
-          {s.role_title && <Text className="text-sm text-slate-500">{s.role_title}</Text>}
+          <Text className="text-base font-semibold text-sand-900">{s.display_name}</Text>
+          {s.role_title && <Text className="text-sm text-sand-500">{s.role_title}</Text>}
         </Pressable>
       ))}
     </ScrollView>
@@ -151,19 +151,19 @@ function TimeStep({ serviceId, onNext }: { serviceId: string; onNext: () => void
               onPress={() => set({ date: d, slotStart: null, slotStaffId: null })}
               accessibilityRole="button"
               accessibilityState={{ selected: sel }}
-              className={sel ? 'w-14 items-center rounded-xl bg-brand-600 py-2' : 'w-14 items-center rounded-xl border border-slate-200 bg-white py-2'}
+              className={sel ? 'w-14 items-center rounded-xl bg-brand-600 py-2' : 'w-14 items-center rounded-xl border border-sand-200 bg-white py-2'}
             >
-              <Text className={sel ? 'text-xs text-brand-100' : 'text-xs text-slate-500'}>{wd?.replace(',', '')}</Text>
-              <Text className={sel ? 'text-lg font-bold text-white' : 'text-lg font-bold text-slate-900'}>{day}</Text>
+              <Text className={sel ? 'text-xs text-brand-100' : 'text-xs text-sand-500'}>{wd?.replace(',', '')}</Text>
+              <Text className={sel ? 'text-lg font-bold text-white' : 'text-lg font-bold text-sand-900'}>{day}</Text>
             </Pressable>
           );
         })}
       </ScrollView>
 
       <ScrollView contentContainerClassName="flex-row flex-wrap gap-2 p-4">
-        {slots.isLoading && <ActivityIndicator className="w-full" color="#1a7e56" />}
+        {slots.isLoading && <ActivityIndicator className="w-full" color="#146b4f" />}
         <ErrorText error={slots.error} />
-        {slots.data?.length === 0 && <Text className="w-full py-8 text-center text-slate-500">No free times on this day. Try another date.</Text>}
+        {slots.data?.length === 0 && <Text className="w-full py-8 text-center text-sand-500">No free times on this day. Try another date.</Text>}
         {slots.data?.map((s) => (
           <Chip
             key={`${s.staff_id}-${s.slot_start}`}
@@ -237,8 +237,8 @@ function LocationStep({ base, radiusKm, onNext }: { base: { lat: number; lng: nu
 
   return (
     <ScrollView contentContainerClassName="gap-3 p-4" keyboardShouldPersistTaps="handled">
-      <Button title="Use my current location" variant="secondary" loading={device.status === 'loading'} icon={<LocateFixed size={18} color="#156548" />} onPress={useCurrent} />
-      {device.status === 'denied' && <Text className="text-xs text-slate-500">Location is off — type your address instead.</Text>}
+      <Button title="Use my current location" variant="secondary" loading={device.status === 'loading'} icon={<LocateFixed size={18} color="#115641" />} onPress={useCurrent} />
+      {device.status === 'denied' && <Text className="text-xs text-sand-500">Location is off — type your address instead.</Text>}
       {field('line1', 'Street address', { autoComplete: 'street-address' })}
       {field('line2', 'Unit / complex (optional)')}
       <View className="flex-row gap-3">
@@ -248,19 +248,19 @@ function LocationStep({ base, radiusKm, onNext }: { base: { lat: number; lng: nu
       {field('city', 'City')}
       {point && (
         <Animated.View entering={FadeIn} className="flex-row items-center gap-2">
-          <MapPin size={14} color="#1a7e56" />
-          <Text className="text-xs text-slate-500">Location pinned</Text>
+          <MapPin size={14} color="#146b4f" />
+          <Text className="text-xs text-sand-500">Location pinned</Text>
         </Animated.View>
       )}
       {error && (
-        <View className="flex-row items-start gap-2 rounded-xl bg-amber-50 p-3">
-          <AlertTriangle size={16} color="#b45309" />
-          <Text className="flex-1 text-sm text-amber-800">{error}</Text>
+        <View className="flex-row items-start gap-2 rounded-xl bg-sun-50 p-3">
+          <AlertTriangle size={16} color="#b0540a" />
+          <Text className="flex-1 text-sm text-sun-800">{error}</Text>
         </View>
       )}
-      <View className="flex-row items-start gap-2 rounded-xl bg-slate-100 p-3">
-        <ShieldCheck size={16} color="#475569" />
-        <Text className="flex-1 text-xs text-slate-600">Your address is shared only with this provider for this job and deleted automatically 90 days after it&apos;s done.</Text>
+      <View className="flex-row items-start gap-2 rounded-xl bg-sand-100 p-3">
+        <ShieldCheck size={16} color="#5f564a" />
+        <Text className="flex-1 text-xs text-sand-600">Your address is shared only with this provider for this job and deleted automatically 90 days after it&apos;s done.</Text>
       </View>
       <Button title="Continue" loading={busy} onPress={confirm} />
     </ScrollView>
@@ -271,19 +271,19 @@ function DetailsStep({ onNext }: { onNext: () => void }) {
   const { message, set } = useBookingFlow();
   return (
     <View className="flex-1 gap-3 p-4">
-      <Text className="text-sm text-slate-600">The more detail you give, the more accurate your quote. Mention make/model, size, symptoms, access, etc.</Text>
+      <Text className="text-sm text-sand-600">The more detail you give, the more accurate your quote. Mention make/model, size, symptoms, access, etc.</Text>
       <TextInput
         multiline
         value={message}
         onChangeText={(v) => set({ message: v })}
         maxLength={1000}
         placeholder="e.g. 2015 VW Polo, engine light on, battery seems weak…"
-        placeholderTextColor="#94a3b8"
-        className="min-h-40 rounded-xl border border-slate-300 bg-white p-3 text-base text-slate-900"
+        placeholderTextColor="#a89c88"
+        className="min-h-40 rounded-xl border border-sand-300 bg-white p-3 text-base text-sand-900"
         textAlignVertical="top"
         accessibilityLabel="Job description"
       />
-      <Text className="text-right text-xs text-slate-400">{message.length}/1000</Text>
+      <Text className="text-right text-xs text-sand-400">{message.length}/1000</Text>
       <Button title="Continue" disabled={message.trim().length < 10} onPress={onNext} />
     </View>
   );
@@ -343,9 +343,9 @@ function ReviewStep({
         <Row label="Duration" value={`${service.duration_minutes} min`} />
         {flow.address && <Row label="Address" value={[flow.address.line1, flow.address.suburb, flow.address.city].join(', ')} />}
         {flow.message ? <Row label="Details" value={flow.message} /> : null}
-        <View className="my-3 h-px bg-slate-100" />
+        <View className="my-3 h-px bg-sand-100" />
         {isQuote ? (
-          <Text className="text-sm text-slate-600">No charge now. {businessName} will send you a quote to accept or decline.</Text>
+          <Text className="text-sm text-sand-600">No charge now. {businessName} will send you a quote to accept or decline.</Text>
         ) : (
           <>
             <Row label="Price" value={formatZar(service.price_cents)} bold />
@@ -355,7 +355,7 @@ function ReviewStep({
       </Card>
 
       {deposit > 0 && (
-        <Text className="text-xs text-slate-500">
+        <Text className="text-xs text-sand-500">
           Your slot is held for 15 minutes while you pay the deposit securely with Paystack. Free cancellation up to 24 hours before.
         </Text>
       )}
@@ -373,8 +373,8 @@ function ReviewStep({
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
     <View className="flex-row justify-between gap-4 py-1.5">
-      <Text className="text-sm text-slate-500">{label}</Text>
-      <Text className={bold ? 'flex-1 text-right text-base font-bold text-slate-900' : 'flex-1 text-right text-sm text-slate-900'}>{value}</Text>
+      <Text className="text-sm text-sand-500">{label}</Text>
+      <Text className={bold ? 'flex-1 text-right text-base font-bold text-sand-900' : 'flex-1 text-right text-sm text-sand-900'}>{value}</Text>
     </View>
   );
 }

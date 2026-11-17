@@ -19,7 +19,7 @@ function RootNavigator() {
   if (status === 'loading') return null; // splash stays up
 
   return (
-    <Stack screenOptions={{ headerTintColor: '#156548', headerTitleStyle: { fontWeight: '600' }, contentStyle: { backgroundColor: '#f8fafc' } }}>
+    <Stack screenOptions={{ headerTintColor: '#115641', headerTitleStyle: { fontWeight: '600' }, contentStyle: { backgroundColor: '#faf8f5' } }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="business/[id]" options={{ title: '' }} />
 

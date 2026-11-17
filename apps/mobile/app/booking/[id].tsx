@@ -95,7 +95,7 @@ export default function BookingTrackerScreen() {
     onSettled: invalidate,
   });
 
-  if (booking.isLoading) return <ActivityIndicator className="mt-20" color="#1a7e56" />;
+  if (booking.isLoading) return <ActivityIndicator className="mt-20" color="#146b4f" />;
   if (!a) return <ErrorText error={booking.error ?? new Error('Booking not found')} />;
 
   const pendingQuote = a.quotes.find((q) => q.status === 'pending');
@@ -120,26 +120,26 @@ export default function BookingTrackerScreen() {
 
   return (
     <ScrollView
-      className="flex-1 bg-slate-50"
+      className="flex-1 bg-sand-50"
       contentContainerClassName="gap-4 p-4 pb-16"
-      refreshControl={<RefreshControl refreshing={booking.isRefetching} onRefresh={() => void booking.refetch()} tintColor="#1a7e56" />}
+      refreshControl={<RefreshControl refreshing={booking.isRefetching} onRefresh={() => void booking.refetch()} tintColor="#146b4f" />}
     >
       <Card>
         <View className="flex-row items-start justify-between">
           <View className="flex-1 gap-1">
-            <Text className="text-lg font-bold text-slate-900">{a.service?.title}</Text>
-            <Text className="text-sm text-slate-500">{business.data?.name}{staffName ? ` · ${staffName}` : ''}</Text>
+            <Text className="text-lg font-bold text-sand-900">{a.service?.title}</Text>
+            <Text className="text-sm text-sand-500">{business.data?.name}{staffName ? ` · ${staffName}` : ''}</Text>
           </View>
           <StatusPill status={a.status} />
         </View>
         <View className="mt-3 gap-1.5">
           <View className="flex-row items-center gap-2">
-            <Clock size={14} color="#64748b" />
-            <Text className="text-sm text-slate-700">{formatDateTime(a.starts_at)}</Text>
+            <Clock size={14} color="#7a6f5e" />
+            <Text className="text-sm text-sand-700">{formatDateTime(a.starts_at)}</Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <MapPin size={14} color="#64748b" />
-            <Text className="flex-1 text-sm text-slate-700">
+            <MapPin size={14} color="#7a6f5e" />
+            <Text className="flex-1 text-sm text-sand-700">
               {a.is_mobile
                 ? [a.client_address_line1, a.client_suburb].filter(Boolean).join(', ') || 'Your address'
                 : [business.data?.address_line1, business.data?.suburb].filter(Boolean).join(', ')}
@@ -150,8 +150,8 @@ export default function BookingTrackerScreen() {
           {a.total_price_cents !== null && <Pill tone="brand">{formatZar(a.total_price_cents)}</Pill>}
           {a.deposit_status !== 'not_required' && <Pill tone={a.deposit_status === 'paid' ? 'brand' : 'amber'}>{DEPOSIT_LABEL[a.deposit_status]}</Pill>}
           <View className="ml-auto flex-row items-center gap-1">
-            <Radio size={12} color={live ? '#10b981' : '#94a3b8'} />
-            <Text className={live ? 'text-xs text-emerald-600' : 'text-xs text-slate-400'}>{live ? 'Live' : 'Connecting…'}</Text>
+            <Radio size={12} color={live ? '#1f8462' : '#a89c88'} />
+            <Text className={live ? 'text-xs text-brand-600' : 'text-xs text-sand-400'}>{live ? 'Live' : 'Connecting…'}</Text>
           </View>
         </View>
       </Card>
@@ -180,9 +180,9 @@ export default function BookingTrackerScreen() {
 
       {/* Deposit due (instant book or accepted quote) */}
       {deposit && open && (
-        <Card className="border-amber-300 bg-amber-50">
-          <Text className="font-semibold text-amber-900">Pay {formatZar(a.deposit_cents)} deposit to confirm</Text>
-          <Text className="mt-1 text-xs text-amber-800">Slot held until {formatTime(a.hold_expires_at!)}.</Text>
+        <Card className="border-sun-300 bg-sun-50">
+          <Text className="font-semibold text-sun-900">Pay {formatZar(a.deposit_cents)} deposit to confirm</Text>
+          <Text className="mt-1 text-xs text-sun-800">Slot held until {formatTime(a.hold_expires_at!)}.</Text>
           <ErrorText error={pay.error} />
           <Button title="Pay securely" className="mt-3" icon={<CreditCard size={18} color="#fff" />} loading={pay.isPending} onPress={() => pay.mutate({ type: 'deposit' })} />
         </Card>
@@ -197,8 +197,8 @@ export default function BookingTrackerScreen() {
       <Card>
         {a.events.map((e) => (
           <Animated.View key={e.id} layout={LinearTransition} entering={FadeInUp} className="flex-row gap-3 py-1.5">
-            <Text className="w-12 text-xs tabular-nums text-slate-400">{formatTime(e.created_at)}</Text>
-            <Text className="flex-1 text-sm text-slate-700">{describeEvent(e)}</Text>
+            <Text className="w-12 text-xs tabular-nums text-sand-400">{formatTime(e.created_at)}</Text>
+            <Text className="flex-1 text-sm text-sand-700">{describeEvent(e)}</Text>
           </Animated.View>
         ))}
       </Card>
@@ -206,10 +206,10 @@ export default function BookingTrackerScreen() {
       {a.status === 'completed' && a.staff_id && business.data?.accepts_payments && (
         <Card>
           <View className="flex-row items-center gap-2">
-            <HandHeart size={18} color="#1a7e56" />
+            <HandHeart size={18} color="#146b4f" />
             <Text className="font-semibold">Leave a tip{staffName ? ` for ${staffName}` : ''}</Text>
           </View>
-          <Text className="mt-1 text-xs text-slate-500">100% goes to your professional.</Text>
+          <Text className="mt-1 text-xs text-sand-500">100% goes to your professional.</Text>
           <View className="mt-3 flex-row gap-2">
             {TIP_OPTIONS.map((c) => (
               <Chip key={c} label={formatZar(c)} onPress={() => pay.mutate({ type: 'tip', tipCents: c })} />

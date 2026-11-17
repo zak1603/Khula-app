@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Sprout } from 'lucide-react-native';
 import { messageForCode, signInSchema, type SignInInput } from '@khula/shared';
 import { supabase } from '@/lib/supabase';
-import { Button, ErrorText, Input } from '@/components/ui';
+import { BeadStripe, Button, ErrorText, Input } from '@/components/ui';
 
 export default function SignInScreen() {
   const { control, handleSubmit, formState: { errors } } = useForm<SignInInput>({
@@ -26,9 +26,16 @@ export default function SignInScreen() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-white">
       <ScrollView contentContainerClassName="gap-4 p-6" keyboardShouldPersistTaps="handled">
-        <View className="mb-2 flex-row items-center gap-2">
-          <Sprout size={28} color="#1a7e56" />
-          <Text className="text-2xl font-bold text-slate-900">Welcome back</Text>
+        <View className="mb-2 gap-4">
+          <View className="h-14 w-14 items-center justify-center rounded-2xl bg-brand-800">
+            <Sprout size={28} color="#f9b724" />
+          </View>
+          <View className="gap-1">
+            <Text className="text-xs font-bold uppercase tracking-widest text-sun-600">Sawubona</Text>
+            <Text className="text-3xl font-extrabold tracking-tight text-ink">Welcome back</Text>
+            <Text className="text-base text-sand-500">Sign in to book trusted local pros.</Text>
+          </View>
+          <BeadStripe className="w-28" />
         </View>
         <Controller
           control={control}

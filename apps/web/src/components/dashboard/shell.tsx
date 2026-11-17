@@ -8,6 +8,7 @@ import type { UserRole } from '@khula/shared';
 import { useBusinesses } from '@/hooks/queries';
 import { useDashboardStore } from '@/stores/dashboard-store';
 import { Select, Skeleton } from '@/components/ui/primitives';
+import { BeadStripe } from '@/components/ui/bead-stripe';
 import { CreateBusinessForm } from './create-business-form';
 import { cn } from '@/lib/utils';
 
@@ -39,11 +40,14 @@ export function DashboardShell({ children, userName, role }: { children: React.R
 
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white md:flex">
-        <div className="flex items-center gap-2 px-5 py-5">
-          <Sprout className="h-6 w-6 text-brand-600" aria-hidden />
-          <span className="text-lg font-bold tracking-tight">Khula</span>
-          <span className="rounded bg-brand-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-brand-700">Business</span>
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-sand-200 bg-white md:flex">
+        <BeadStripe className="mx-5 mt-4 h-0.5" />
+        <div className="flex items-center gap-2.5 px-5 py-5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-900">
+            <Sprout className="h-4 w-4 text-sun-400" aria-hidden />
+          </span>
+          <span className="text-lg font-extrabold tracking-tight">Khula</span>
+          <span className="rounded bg-sun-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-sun-800">Business</span>
         </div>
 
         <div className="px-4 pb-4">
@@ -72,7 +76,7 @@ export function DashboardShell({ children, userName, role }: { children: React.R
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium',
-                  active ? 'bg-brand-50 text-brand-700' : 'text-ink-muted hover:bg-slate-50 hover:text-ink',
+                  active ? 'bg-brand-50 text-brand-700' : 'text-ink-muted hover:bg-sand-50 hover:text-ink',
                 )}
               >
                 <Icon className="h-4 w-4" aria-hidden />
@@ -82,7 +86,7 @@ export function DashboardShell({ children, userName, role }: { children: React.R
           })}
         </nav>
 
-        <div className="border-t border-slate-100 p-4">
+        <div className="border-t border-sand-100 p-4">
           <p className="truncate text-sm font-medium">{userName}</p>
           <p className="text-xs capitalize text-ink-subtle">{role.replace('_', ' ')}</p>
           <button onClick={signOut} className="mt-3 flex items-center gap-2 text-sm text-ink-muted hover:text-ink">
@@ -93,7 +97,7 @@ export function DashboardShell({ children, userName, role }: { children: React.R
 
       <main className="min-w-0 flex-1">
         {/* Mobile nav */}
-        <nav className="flex gap-1 overflow-x-auto border-b border-slate-200 bg-white px-3 py-2 md:hidden" aria-label="Dashboard">
+        <nav className="flex gap-1 overflow-x-auto border-b border-sand-200 bg-white px-3 py-2 md:hidden" aria-label="Dashboard">
           {NAV.map(({ href, label }) => (
             <Link key={href} href={href} className="whitespace-nowrap rounded-md px-3 py-1.5 text-sm text-ink-muted aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700" aria-current={pathname === href ? 'page' : undefined}>
               {label}

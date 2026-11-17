@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply bg-slate-50 text-ink antialiased;
+    @apply bg-sand-50 text-ink antialiased;
   }
   :focus-visible {
     @apply outline-none ring-2 ring-brand-500 ring-offset-2;
@@ -12,19 +12,28 @@
 }
 
 @layer utilities {
-  /* Diagonal hatching used for buffer time and off-hours in the calendar */
+  /* Diagonal hatching used for buffer time and off-hours in the calendar (sand-400 / sun-500) */
   .bg-hatch {
     background-image: repeating-linear-gradient(
       135deg,
-      rgb(148 163 184 / 0.25) 0 6px,
+      rgb(168 156 136 / 0.25) 0 6px,
       transparent 6px 12px
     );
   }
   .bg-hatch-amber {
     background-image: repeating-linear-gradient(
       135deg,
-      rgb(245 158 11 / 0.25) 0 5px,
+      rgb(240 154 11 / 0.25) 0 5px,
       transparent 5px 10px
     );
+  }
+  /* Faint Ndebele-inspired diamond lattice for dark brand panels (sun-400 at 7%) */
+  .bg-diamonds {
+    background-image:
+      linear-gradient(135deg, rgb(249 183 36 / 0.07) 25%, transparent 25%),
+      linear-gradient(225deg, rgb(249 183 36 / 0.07) 25%, transparent 25%),
+      linear-gradient(315deg, rgb(249 183 36 / 0.07) 25%, transparent 25%),
+      linear-gradient(45deg, rgb(249 183 36 / 0.07) 25%, transparent 25%);
+    background-size: 32px 32px;
   }
 }

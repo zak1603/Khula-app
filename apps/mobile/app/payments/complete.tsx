@@ -15,8 +15,8 @@ export default function PaymentComplete() {
   }, []);
   return (
     <View className="flex-1 items-center justify-center gap-3 bg-white">
-      <ActivityIndicator color="#1a7e56" />
-      <Text className="text-slate-500">Confirming your payment…</Text>
+      <ActivityIndicator color="#146b4f" />
+      <Text className="text-sand-500">Confirming your payment…</Text>
     </View>
   );
 }

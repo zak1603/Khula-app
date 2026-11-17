@@ -34,7 +34,7 @@ export function QuoteInbox() {
       ) : !inbox.data?.length ? (
         <EmptyState icon={<Inbox className="h-5 w-5" />} title="No open quote requests" />
       ) : (
-        <ul className="divide-y divide-slate-100">
+        <ul className="divide-y divide-sand-100">
           {inbox.data.map((a) => {
             const pending = a.quotes?.find((q) => q.status === 'pending');
             return (
@@ -52,7 +52,7 @@ export function QuoteInbox() {
                       <MapPin className="h-3 w-3" aria-hidden /> {a.client_suburb}, {a.client_city}
                     </p>
                   )}
-                  {a.client_message && <p className="whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm">“{a.client_message}”</p>}
+                  {a.client_message && <p className="whitespace-pre-wrap rounded-lg bg-sand-50 p-2 text-sm">“{a.client_message}”</p>}
                   {pending && (
                     <Badge tone="violet">
                       Sent {formatZar(pending.amount_cents)} · expires {formatDateTime(pending.valid_until)}
@@ -118,7 +118,7 @@ function QuoteDialog({ appointmentId, onClose }: { appointmentId: string | null;
         <Field label="Message to client" error={errors.message?.message} hint="What's included, parts, call-out fee, etc.">
           {(p) => <Textarea {...p} {...register('message')} maxLength={2000} />}
         </Field>
-        <fieldset className="space-y-3 rounded-xl border border-slate-200 p-3">
+        <fieldset className="space-y-3 rounded-xl border border-sand-200 p-3">
           <legend className="flex items-center gap-1 px-1 text-sm font-medium">
             <CalendarClock className="h-4 w-4" aria-hidden /> Propose a different time (optional)
           </legend>

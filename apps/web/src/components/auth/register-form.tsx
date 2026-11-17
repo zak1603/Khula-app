@@ -51,9 +51,9 @@ export function RegisterForm() {
           {(p) => <Input {...p} type="password" autoComplete="new-password" {...register('confirmPassword')} />}
         </Field>
 
-        <div className="space-y-2 rounded-xl bg-slate-50 p-3 text-sm">
+        <div className="space-y-2 rounded-xl bg-sand-50 p-3 text-sm">
           <label className="flex items-start gap-2">
-            <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-slate-300" {...register('popiaConsent')} />
+            <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-sand-300" {...register('popiaConsent')} />
             <span>
               I agree to the <Link href="/legal/privacy" className="font-medium text-brand-700 underline">privacy notice</Link> and consent to Khula
               processing my personal information to provide the service (POPIA).
@@ -61,7 +61,7 @@ export function RegisterForm() {
           </label>
           {errors.popiaConsent?.message && <p role="alert" className="text-xs text-red-600">{errors.popiaConsent.message}</p>}
           <label className="flex items-start gap-2">
-            <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-slate-300" {...register('marketingOptIn')} />
+            <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-sand-300" {...register('marketingOptIn')} />
             <span>Send me occasional product news (optional — you can opt out anytime).</span>
           </label>
         </div>

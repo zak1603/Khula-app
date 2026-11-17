@@ -77,7 +77,7 @@ export function StaffCommissionTracker() {
         }
       />
 
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 px-5 py-3">
+      <div className="flex flex-wrap items-center gap-2 border-b border-sand-100 px-5 py-3">
         {(Object.keys(PERIODS) as Array<keyof typeof PERIODS>).map((k) => (
           <button
             key={k}
@@ -107,7 +107,7 @@ export function StaffCommissionTracker() {
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-ink-subtle">
+            <thead className="bg-sand-50 text-left text-xs uppercase tracking-wide text-ink-subtle">
               <tr>
                 <th className="px-5 py-2 font-medium">Team member</th>
                 <th className="px-3 py-2 font-medium">Commission</th>
@@ -120,7 +120,7 @@ export function StaffCommissionTracker() {
                 <th className="px-5 py-2 font-medium">Active</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-sand-100">
               {staff.data.map((s) => {
                 const e = earningsById.get(s.id);
                 const draft = drafts[s.id];
@@ -247,10 +247,10 @@ function InviteStaffDialog({ open, onClose }: { open: boolean; onClose: () => vo
           {(p) => <Input {...p} type="number" min={0} max={100} step={0.5} {...register('commissionPercent')} />}
         </Field>
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="h-4 w-4 rounded border-slate-300" {...register('canManageBookings')} /> Can manage bookings
+          <input type="checkbox" className="h-4 w-4 rounded border-sand-300" {...register('canManageBookings')} /> Can manage bookings
         </label>
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="h-4 w-4 rounded border-slate-300" {...register('canViewClientNotes')} /> Can read private client notes
+          <input type="checkbox" className="h-4 w-4 rounded border-sand-300" {...register('canViewClientNotes')} /> Can read private client notes
         </label>
         <ErrorNotice error={create.error} />
         <div className="flex justify-end gap-2">

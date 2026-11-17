@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils';
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 const buttonStyles: Record<ButtonVariant, string> = {
   primary: 'bg-brand-600 text-white hover:bg-brand-700 disabled:bg-brand-300',
-  secondary: 'bg-white text-ink border border-slate-200 hover:bg-slate-50 disabled:text-slate-400',
-  ghost: 'text-ink-muted hover:bg-slate-100',
+  secondary: 'bg-white text-ink border border-sand-200 hover:bg-sand-50 disabled:text-sand-400',
+  ghost: 'text-ink-muted hover:bg-sand-100',
   danger: 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300',
 };
 
@@ -40,12 +40,12 @@ export const Button = forwardRef<
 
 // ---------------------------------------------------------------- Card
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('rounded-2xl border border-slate-200 bg-white shadow-sm', className)} {...props} />;
+  return <div className={cn('rounded-2xl border border-sand-200 bg-white shadow-sm', className)} {...props} />;
 }
 
 export function CardHeader({ title, description, action }: { title: string; description?: string; action?: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-slate-100 px-5 py-4">
+    <div className="flex items-start justify-between gap-4 border-b border-sand-100 px-5 py-4">
       <div>
         <h2 className="text-base font-semibold text-ink">{title}</h2>
         {description && <p className="mt-0.5 text-sm text-ink-muted">{description}</p>}
@@ -64,7 +64,7 @@ export const Input = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTML
     <input
       ref={ref}
       className={cn(
-        'h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm placeholder:text-slate-400',
+        'h-10 w-full rounded-lg border border-sand-300 bg-white px-3 text-sm placeholder:text-sand-400',
         'focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200',
         'aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-100',
         className,
@@ -80,7 +80,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttrib
       <textarea
         ref={ref}
         className={cn(
-          'min-h-[88px] w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm',
+          'min-h-[88px] w-full rounded-lg border border-sand-300 bg-white px-3 py-2 text-sm',
           'focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 aria-[invalid=true]:border-red-500',
           className,
         )}
@@ -98,7 +98,7 @@ export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<H
     <select
       ref={ref}
       className={cn(
-        'h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200',
+        'h-10 w-full rounded-lg border border-sand-300 bg-white px-3 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200',
         className,
       )}
       {...props}
@@ -161,7 +161,7 @@ export function Switch({
       onClick={() => onChange(!checked)}
       className={cn(
         'relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors disabled:opacity-50',
-        checked ? 'bg-brand-600' : 'bg-slate-300',
+        checked ? 'bg-brand-600' : 'bg-sand-300',
       )}
     >
       <span className={cn('inline-block h-5 w-5 transform rounded-full bg-white shadow transition', checked ? 'translate-x-5' : 'translate-x-0.5')} />
@@ -171,11 +171,11 @@ export function Switch({
 
 // ---------------------------------------------------------------- Badges
 const statusStyles: Record<AppointmentStatus, string> = {
-  requested: 'bg-amber-50 text-amber-700 ring-amber-200',
+  requested: 'bg-sun-50 text-sun-700 ring-sun-200',
   quoted: 'bg-violet-50 text-violet-700 ring-violet-200',
-  confirmed: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+  confirmed: 'bg-brand-50 text-brand-700 ring-brand-200',
   completed: 'bg-sky-50 text-sky-700 ring-sky-200',
-  cancelled: 'bg-slate-100 text-slate-500 ring-slate-200',
+  cancelled: 'bg-sand-100 text-sand-500 ring-sand-200',
 };
 
 export function StatusBadge({ status }: { status: AppointmentStatus }) {
@@ -188,9 +188,9 @@ export function StatusBadge({ status }: { status: AppointmentStatus }) {
 
 export function Badge({ children, tone = 'slate' }: { children: React.ReactNode; tone?: 'slate' | 'brand' | 'amber' | 'violet' }) {
   const tones = {
-    slate: 'bg-slate-100 text-slate-600',
+    slate: 'bg-sand-100 text-sand-600',
     brand: 'bg-brand-50 text-brand-700',
-    amber: 'bg-amber-50 text-amber-700',
+    amber: 'bg-sun-50 text-sun-700',
     violet: 'bg-violet-50 text-violet-700',
   };
   return <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium', tones[tone])}>{children}</span>;
@@ -225,7 +225,7 @@ export function Dialog({
       onClick={(e) => e.target === ref.current && onClose()}
       aria-label={title}
       className={cn(
-        'backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm',
+        'backdrop:bg-sand-900/40 backdrop:backdrop-blur-sm',
         side
           ? 'm-0 ml-auto h-full max-h-full w-full max-w-md rounded-none p-0'
           : 'w-full max-w-lg rounded-2xl p-0',
@@ -233,9 +233,9 @@ export function Dialog({
     >
       {open && (
         <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+          <div className="flex items-center justify-between border-b border-sand-100 px-5 py-4">
             <h2 className="text-base font-semibold">{title}</h2>
-            <button type="button" onClick={onClose} className="rounded-md p-1 text-ink-muted hover:bg-slate-100" aria-label="Close">
+            <button type="button" onClick={onClose} className="rounded-md p-1 text-ink-muted hover:bg-sand-100" aria-label="Close">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -249,7 +249,7 @@ export function Dialog({
 export function EmptyState({ icon, title, children }: { icon: React.ReactNode; title: string; children?: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 px-6 py-12 text-center">
-      <div className="rounded-full bg-slate-100 p-3 text-ink-muted">{icon}</div>
+      <div className="rounded-full bg-sand-100 p-3 text-ink-muted">{icon}</div>
       <p className="font-medium text-ink">{title}</p>
       {children && <div className="max-w-sm text-sm text-ink-muted">{children}</div>}
     </div>
@@ -267,5 +267,5 @@ export function ErrorNotice({ error }: { error: unknown }) {
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn('animate-pulse rounded-lg bg-slate-200/70', className)} />;
+  return <div className={cn('animate-pulse rounded-lg bg-sand-200/70', className)} />;
 }
