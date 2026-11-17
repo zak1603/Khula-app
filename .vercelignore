@@ -1,0 +1,11 @@
+# Keep CLI uploads lean and never ship local secrets or build output.
+# (Git-based deploys only see committed files anyway.)
+node_modules
+**/node_modules
+.git
+**/.next
+**/.expo
+**/.env
+**/.env.*
+!**/.env.example
+supabase/.temp

@@ -32,10 +32,11 @@ const CONFIG: Record<Bucket, { tokens: number; window: Duration; failClosed: boo
   api: { tokens: 120, window: '1 m', failClosed: false },
 };
 
-const redis =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN })
-    : null;
+// Upstash's own variable names, or the KV_* names that Vercel's Upstash
+// Marketplace integration injects. `||` so empty strings count as unset.
+const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+const redis = REDIS_URL && REDIS_TOKEN ? new Redis({ url: REDIS_URL, token: REDIS_TOKEN }) : null;
 
 // Per-isolate cache of already-blocked identifiers: blocked callers don't even
 // cost a Redis round-trip while the block lasts.
