@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@hookform/resolvers": "5.9.2",
+    "@hookform/resolvers": "7.0.6",
     "@khula/shared": "*",
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.119.0",
