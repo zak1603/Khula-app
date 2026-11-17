@@ -175,6 +175,12 @@ const [q] = await expectOk('owner sends quote', 'owner', `select * from submit_q
 await expectErr('other client cannot accept', 'client', `select * from respond_to_quote('${q.id}', true)`, /QUOTE_NOT_FOUND/);
 await expectOk('client accepts quote -> confirmed', 'client2', `select status,total_price_cents from respond_to_quote('${q.id}', true)`, r => r[0].status === 'confirmed' && r[0].total_price_cents === 120000);
 
+console.log('\nAnonymous surface (0700)');
+await expectErr('anon cannot call internal helper is_admin', 'anon', `select public.is_admin()`, /permission denied/);
+await expectErr('anon cannot probe business ownership', 'anon', `select public.is_business_owner('${biz.id}')`, /permission denied/);
+await expectOk('anon can still browse public services', 'anon', `select title from services where business_id='${biz.id}'`, r => r.length >= 2);
+await expectOk('anon can still search', 'anon', `select * from search_businesses(-26.26, 27.91, 25)`, r => r.length === 1);
+
 console.log('\nPOPIA & audit');
 await expectErr('active bookings block self-erasure', 'client2', `select anonymize_client('${ids.client2}','User request')`, /ACTIVE_BOOKINGS_EXIST/);
 await expectOk('client exports own data', 'client', `select export_client_data() as d`, r => r[0].d.appointments.length === 1 && r[0].d.provider_notes === null);
