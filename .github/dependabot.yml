@@ -1,0 +1,47 @@
+version: 2
+updates:
+  # npm workspaces (root lockfile covers apps/* and packages/*)
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Africa/Johannesburg
+    open-pull-requests-limit: 10
+    labels: [dependencies]
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      supabase:
+        patterns: ["@supabase/*"]
+      react-query-and-state:
+        patterns: ["@tanstack/*", "zustand", "react-hook-form", "@hookform/*", "zod"]
+      upstash:
+        patterns: ["@upstash/*"]
+      lint-and-types:
+        patterns: ["eslint*", "@types/*", "typescript", "prettier*", "vitest"]
+      tailwind:
+        patterns: ["tailwindcss", "postcss", "autoprefixer", "nativewind", "tailwind-merge", "clsx"]
+    ignore:
+      # Expo SDK packages must move together via `npx expo install --fix`;
+      # Next.js and React majors are upgraded deliberately.
+      - dependency-name: "expo*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "react-native*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+
+  # Security updates are always raised immediately regardless of schedule.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels: [dependencies, ci]
+    commit-message:
+      prefix: "chore(ci)"

@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Khula",
+    "slug": "khula",
+    "scheme": "khula",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "za.co.khula.app",
+      "supportsTablet": false,
+      "config": { "usesNonExemptEncryption": false },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Khula uses your location to show nearby providers and to check that mobile providers can travel to you. Your location is never stored unless you book an on-site service."
+      }
+    },
+    "android": {
+      "package": "za.co.khula.app",
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
+      "blockedPermissions": ["android.permission.ACCESS_BACKGROUND_LOCATION", "android.permission.RECORD_AUDIO"],
+      "allowBackup": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-web-browser",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Khula uses your location to show nearby providers and to check that mobile providers can travel to you."
+        }
+      ]
+    ],
+    "experiments": { "typedRoutes": true }
+  }
+}

@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-slate-50 text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+  }
+}
+
+@layer utilities {
+  /* Diagonal hatching used for buffer time and off-hours in the calendar */
+  .bg-hatch {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgb(148 163 184 / 0.25) 0 6px,
+      transparent 6px 12px
+    );
+  }
+  .bg-hatch-amber {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgb(245 158 11 / 0.25) 0 5px,
+      transparent 5px 10px
+    );
+  }
+}

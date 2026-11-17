@@ -1,0 +1,209 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit — automated AI review for every pull request on Khula.
+# Goal: no PR merges without a security pass over RLS, secrets, payments,
+# POPIA data handling and input validation. Docs: https://docs.coderabbit.ai
+
+language: en-ZA
+early_access: false
+tone_instructions: >-
+  Be direct and specific. Lead with security and data-protection risks, then correctness, then maintainability.
+  Cite file and line, propose a concrete fix, and skip praise and style nits linters already catch.
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true        # unresolved CodeRabbit comments block approval
+  high_level_summary: true
+  high_level_summary_in_walkthrough: true
+  review_status: true
+  commit_status: true
+  fail_commit_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  estimate_code_review_effort: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  auto_apply_labels: true
+  suggested_reviewers: true
+  poem: false
+  abort_on_close: true
+
+  labeling_instructions:
+    - label: security
+      instructions: Apply when the PR touches auth, RLS policies, grants, SECURITY DEFINER functions, middleware, rate limiting, CSP/headers, secrets or cryptography.
+    - label: database
+      instructions: Apply when files under supabase/migrations or supabase/tests change.
+    - label: payments
+      instructions: Apply when Paystack/PayFast code, transactions, prepare_payment/apply_payment_* or webhook handlers change.
+    - label: popia
+      instructions: Apply when the PR adds, exposes, logs, exports, retains or deletes personal information (names, phones, emails, addresses, locations, notes).
+    - label: mobile
+      instructions: Apply when apps/mobile changes.
+    - label: web
+      instructions: Apply when apps/web changes.
+    - label: breaking-change
+      instructions: Apply when a shared type, Zod schema, RPC signature or API response shape changes incompatibly.
+
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/package-lock.json"
+    - "!**/*.lock"
+    - "!**/.next/**"
+    - "!**/.expo/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/coverage/**"
+    - "!**/*.generated.ts"
+    - "!apps/mobile/ios/**"
+    - "!apps/mobile/android/**"
+
+  path_instructions:
+    - path: "supabase/migrations/**/*.sql"
+      instructions: |
+        You are reviewing PostgreSQL migrations for a multi-tenant marketplace on Supabase. BLOCK the PR (request changes) for any of:
+        - A new table without `enable row level security`, or a policy that is broader than needed (e.g. `using (true)` on non-reference data, missing `to authenticated`).
+        - Policies that compare against `auth.uid()` without wrapping it as `(select auth.uid())` (performance) or that trust client-writable columns for authorization.
+        - SECURITY DEFINER functions without `set search_path = ''`, without fully schema-qualified references, or without an explicit authorisation check at the top.
+        - New functions not followed by explicit `revoke ... from public, anon, authenticated` / `grant execute ... to <role>` (Postgres grants EXECUTE to PUBLIC by default).
+        - Columns that let a user escalate privilege (role, is_verified, platform_fee_bps, paystack_subaccount_code, profile_id on staff) becoming writable via table/column grants.
+        - Money stored as float/numeric-with-decimals instead of integer cents; prices taken from function arguments instead of the services table.
+        - Personal information (phone, email, address, location, free-text notes) added without a retention rule in purge_expired_personal_data() or handling in anonymize_client()/export_client_data().
+        - Destructive changes (drop column/table, type narrowing) without a reversible, data-preserving plan.
+        Also verify: indexes for new FK/filter columns, CHECK constraints for lengths/formats, `public.is_plain_text()` on new free-text columns, and that supabase/tests/rls-scenarios.pglite.mjs gained a test for new policies.
+    - path: "supabase/functions/**/*.ts"
+      instructions: |
+        Deno Edge Functions holding the service-role key and payment secrets. Check that:
+        - Webhooks verify the provider signature over the RAW body BEFORE parsing (HMAC-SHA512 for Paystack, MD5 + passphrase + server validate for PayFast) using constant-time comparison.
+        - Webhooks are idempotent (webhook_events) and re-verify the transaction with the provider API before settling.
+        - Amounts are never taken from the client or the webhook alone; settlement goes through apply_payment_success() which re-checks amount + currency.
+        - Request bodies are size-capped and Zod-validated with `.strict()`.
+        - No secrets, tokens, card data or customer PII are logged; logs use the structured `log()` helper.
+        - CORS uses the ALLOWED_ORIGINS allow-list, never `*` for authenticated functions.
+    - path: "apps/web/src/middleware.ts"
+      instructions: |
+        Edge middleware is the first security layer. Verify rate-limit buckets still cover /api/auth/*, /api/bookings and /api/payments; auth buckets must fail CLOSED.
+        Verify CSRF origin checks remain for cookie-authenticated mutations, the CSP keeps a per-request nonce with no 'unsafe-inline' scripts, and that auth decisions use supabase.auth.getUser() (never getSession()).
+    - path: "apps/web/src/app/api/**/*.ts"
+      instructions: |
+        Route handlers: every handler must authenticate (getRequestAuth / getUser), validate input with a shared `.strict()` Zod schema via parseJson(), apply a per-identity rate limit where abuse is possible, and map DB errors through dbError() so raw Postgres messages never reach clients.
+        The service-role client (createAdminClient) may only be used after authorisation and must be justified in a comment. Flag any response that echoes request input or returns more personal data than the caller needs.
+    - path: "apps/web/src/lib/**/*.ts"
+      instructions: Server-only modules must import 'server-only'. Secrets must be read via lib/server/env.ts. Check rate-limit identifiers are hashed (no raw emails/IPs in Redis).
+    - path: "packages/shared/src/validation/**/*.ts"
+      instructions: |
+        These Zod schemas guard every entry point (web forms, mobile, API). Require `.strict()` objects, explicit min/max lengths, plainText()/isPlainText for free text, South African formats (E.164 +27 phones, 4-digit postal codes, SA lat/lng bounds), and integer-cent money. Any loosening must be mirrored deliberately in the database CHECK constraints and covered by a test in src/__tests__.
+    - path: "packages/shared/src/types/**/*.ts"
+      instructions: Types must mirror supabase/migrations exactly. Flag drift (renamed/added columns, enum values, RPC args) and breaking changes for consumers in apps/web and apps/mobile.
+    - path: "apps/mobile/**/*.{ts,tsx}"
+      instructions: |
+        React Native / Expo client. Check: tokens only in LargeSecureStore (never AsyncStorage in plaintext), no secrets in EXPO_PUBLIC_* vars, payment flows use expo-web-browser auth sessions (no card input in-app), deep-link params are never trusted for payment state, location permission is foreground-only and requested in context, `payment_methods` selects list explicit columns, and lists are virtualised (FlatList/SectionList). Flag accessibility gaps (missing accessibilityRole/Label on touchables).
+    - path: "**/*.tsx"
+      instructions: Flag dangerouslySetInnerHTML, unvalidated URLs in href/src (javascript: schemes), missing accessible labels, and PII rendered unmasked where a masked form is available (maskPhone/maskEmail).
+    - path: ".github/workflows/**"
+      instructions: Require least-privilege `permissions:`, no `pull_request_target` with checkout of PR code, secrets only via `secrets.*`, and pinned major versions (prefer full SHA pins for third-party actions).
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    base_branches:
+      - main
+      - develop
+      - "release/.*"
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT REVIEW"
+
+  finishing_touches:
+    docstrings:
+      enabled: true
+    unit_tests:
+      enabled: true
+
+  pre_merge_checks:
+    docstrings:
+      mode: warning
+      threshold: 60
+    title:
+      mode: error
+      requirements: "Conventional Commits format, e.g. `feat(booking): add travel-radius check` or `fix(rls): restrict client_notes select`."
+    description:
+      mode: error
+    issue_assessment:
+      mode: warning
+    custom_checks:
+      - name: "Security checklist"
+        mode: error
+        instructions: |
+          Fail unless ALL hold for the changed code:
+          1. No secrets, keys or tokens are committed (including in tests, fixtures, .env files or EXPO_PUBLIC_/NEXT_PUBLIC_ variables).
+          2. Every new table has RLS enabled with least-privilege policies, and every new function has explicit EXECUTE grants.
+          3. Every new external input (route handler, RPC, Edge Function, form) is validated by a strict Zod schema and/or SQL checks.
+          4. Authorization is enforced server-side (RLS/RPC checks); client-side role checks are only UI hints.
+          5. Payment amounts are computed server-side and webhooks verify signatures before any state change.
+      - name: "POPIA data protection"
+        mode: error
+        instructions: |
+          If the PR collects, stores, displays, logs, exports or shares personal information: it must state the purpose in the PR description,
+          minimise fields collected, add retention handling (purge_expired_personal_data) and erasure/export handling (anonymize_client / export_client_data),
+          and never write PII to logs (use redactPII / structured logs). Fail if any of these are missing.
+      - name: "Tests for risky changes"
+        mode: warning
+        instructions: |
+          Changes to migrations, RLS, payments, validation schemas or middleware should add or update tests
+          (supabase/tests/rls-scenarios.pglite.mjs, packages/shared/src/__tests__). Warn when they don't.
+
+  tools:
+    eslint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    semgrep:
+      enabled: true
+      config_file: ".semgrep.yml"
+    osvScanner:
+      enabled: true
+    sqlfluff:
+      enabled: true
+    actionlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    shellcheck:
+      enabled: true
+    markdownlint:
+      enabled: true
+    dotenvLint:
+      enabled: true
+    checkov:
+      enabled: true
+    github-checks:
+      enabled: true
+      timeout_ms: 120000
+    biome:
+      enabled: false        # ESLint is the source of truth for TS lint rules
+    languagetool:
+      enabled: false
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "SECURITY.md"
+      - "docs/**/*.md"
+      - ".github/pull_request_template.md"
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  pull_requests:
+    scope: auto

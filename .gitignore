@@ -1,0 +1,39 @@
+# deps
+node_modules/
+.pnp.*
+
+# builds
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# expo
+.expo/
+.expo-shared/
+apps/mobile/ios/
+apps/mobile/android/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# env & secrets — NEVER commit
+.env
+.env.*
+!.env.example
+supabase/functions/.env
+supabase/.temp/
+supabase/.branches/
+
+# logs / os
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
+coverage/
+.vscode/*
+!.vscode/extensions.json

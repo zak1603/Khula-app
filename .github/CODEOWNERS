@@ -1,0 +1,7 @@
+# Security-sensitive areas require review from the code owner.
+/supabase/migrations/   @zak1603
+/supabase/functions/    @zak1603
+/apps/web/src/middleware.ts @zak1603
+/apps/web/src/lib/      @zak1603
+/.github/               @zak1603
+/.coderabbit.yaml       @zak1603

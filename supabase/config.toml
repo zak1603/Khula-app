@@ -1,0 +1,75 @@
+# Supabase CLI configuration (local development). Production settings are
+# managed in the Supabase dashboard — mirror security-relevant values there.
+project_id = "khula"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 500                      # hard cap on rows per PostgREST response
+
+[db]
+port = 54322
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[realtime]
+enabled = true
+
+[storage]
+enabled = true
+file_size_limit = "5MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback", "khula://auth/callback"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+minimum_password_length = 12
+password_requirements = "lower_upper_letters_digits"
+
+[auth.rate_limit]
+email_sent = 4
+sms_sent = 30
+token_refresh = 150
+sign_in_sign_ups = 30
+token_verifications = 30
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+secure_password_change = true
+max_frequency = "60s"
+otp_length = 6
+otp_expiry = 900
+
+[auth.mfa]
+max_enrolled_factors = 10
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+# Paystack / PayFast cannot send a Supabase JWT — these functions verify the
+# provider's HMAC / signature themselves instead.
+[functions.paystack-webhook]
+verify_jwt = false
+
+[functions.payfast-itn]
+verify_jwt = false
+
+# Called by signed-in users: Supabase verifies the JWT before invocation.
+[functions.paystack-initialize]
+verify_jwt = true
+
+[functions.paystack-subaccount]
+verify_jwt = true

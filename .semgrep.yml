@@ -1,0 +1,60 @@
+# Project-specific Semgrep rules (run by CodeRabbit and CI).
+rules:
+  - id: khula-no-service-role-in-client
+    message: Service-role key referenced outside server-only code. It bypasses RLS and must never reach a browser or mobile bundle.
+    severity: ERROR
+    languages: [typescript, javascript]
+    patterns:
+      - pattern-either:
+          - pattern: process.env.SUPABASE_SERVICE_ROLE_KEY
+          - pattern: process.env.EXPO_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
+          - pattern: process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
+    paths:
+      exclude:
+        - apps/web/src/lib/server/**
+        - supabase/functions/**
+
+  - id: khula-no-dangerously-set-inner-html
+    message: dangerouslySetInnerHTML bypasses React's XSS protection. Render text instead.
+    severity: ERROR
+    languages: [typescript, javascript]
+    pattern: <$EL dangerouslySetInnerHTML={...} />
+
+  - id: khula-no-getsession-for-auth
+    message: getSession() reads an unverified cookie. Use supabase.auth.getUser() for server-side authorisation decisions.
+    severity: WARNING
+    languages: [typescript]
+    pattern: $SB.auth.getSession()
+    paths:
+      include:
+        - apps/web/src/middleware.ts
+        - apps/web/src/app/**
+        - apps/web/src/lib/server/**
+
+  - id: khula-payment-methods-select-star
+    message: payment_methods has column-level grants; select explicit display columns (never '*').
+    severity: ERROR
+    languages: [typescript]
+    pattern: $SB.from('payment_methods').select('*')
+
+  - id: khula-security-definer-search-path
+    message: SECURITY DEFINER functions must pin `set search_path = ''`.
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - supabase/migrations/*.sql
+    patterns:
+      - pattern: security definer
+      - pattern-not-inside: |
+          security definer
+          set search_path = ''
+
+  - id: khula-no-pii-console-log
+    message: Possible personal information written to logs (POPIA). Use logServer()/log() with redactPII.
+    severity: WARNING
+    languages: [typescript]
+    pattern-either:
+      - pattern: console.$LOG(..., $X.email, ...)
+      - pattern: console.$LOG(..., $X.phone, ...)
+      - pattern: console.$LOG(..., $X.password, ...)
