@@ -10,11 +10,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@hookform/resolvers": "5.9.2",
+    "@hookform/resolvers": "7.0.7",
     "@khula/shared": "*",
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.119.0",
-    "@tanstack/react-query": "5.107.2",
+    "@tanstack/react-query": "5.108.1",
     "@upstash/ratelimit": "2.2.1",
     "@upstash/redis": "1.41.0",
     "clsx": "2.1.1",
